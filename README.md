@@ -91,28 +91,28 @@ We will use 100 KHz (I2C Standard-Mode) for simplicity.
 
 - Enable RCC Ossilator (Crystal/Ceramic Ossilator) in Pinout and Configuration / System Core / RCC
 
-![rcc_clock_config](https://github.com/sacha-epita/mpu6050_kalman/tree/main/imgs/rcc_clock_config.png)
+![rcc_clock_config](imgs/rcc_clock_config.png)
 
 - Set the crystal at the right speed in the clock configuration menu. And set the max speed for the HCLK clock (The one in the middle) in my case it is `84 MHz`
-![clock_config](https://github.com/sacha-epita/mpu6050_kalman/tree/main/imgs/clock_config.png)
+![clock_config](imgs/clock_config.png)
 
 - Finally in Pinout and Configuration
 - I2C on yours MPU6050 pins (my is on I2C1 with pins PB8; PB9)
 - UART for telemetry output (my is on UART6 with pins PA11; PA12)
 - In System Core / SYS enable Debug: Serial Wire if you use an ST-Link for debugging
-![debug_config](https://github.com/sacha-epita/mpu6050_kalman/tree/main/imgs/debug_config.png)
+![debug_config](imgs/debug_config.png)
 
 - For the Kalman Filter we need a proper delta time, even though it is possible to have a non constant delta time, we will use a timer to get a known and stable delta time. So Enable any **General purpose timer**, like TIM2 and enable global interrupt of this one.
-![tim_it_config](https://github.com/sacha-epita/mpu6050_kalman/tree/main/imgs/tim_it_config.png)
+![tim_it_config](imgs/tim_it_config.png)
 
 
 - We will refresh the sensor at `100Hz` to do this we need to setup the timer.
 - Use a `Prescaler` of `HCLK - 1`. HCLK id the value you set before in Clock Configuration. (In that case you end up on a 1 MHz Timer)
 - Use a `Counter Period` of `10000 - 1`. 1MHz divided by `10'000` is `100Hz`
-![tim_config](https://github.com/sacha-epita/mpu6050_kalman/tree/main/imgs/tim_config.png)
+![tim_config](imgs/tim_config.png)
 
 **You should end up with something like this:**
-![stm_final_config](https://github.com/sacha-epita/mpu6050_kalman/tree/main/imgs/stm_final_config.png)
+![stm_final_config](imgs/stm_final_config.png)
 
 In Project Manager / Project, select Makefile to used it with command line.
 
@@ -296,9 +296,9 @@ extern "C"
 Using Teleplot, we can now see our Accelerometer and Gyroscope data.
 I have save my Teleplot layout, you can import it from my [github](https://github.com/sacha-epita/mpu6050_kalman) in .vscode/teleplot_layout.json
 
-![gyro_raw](https://github.com/sacha-epita/mpu6050_kalman/tree/main/imgs/gyro_raw.png)
+![gyro_raw](imgs/gyro_raw.png)
 
-![accel_raw](https://github.com/sacha-epita/mpu6050_kalman/tree/main/imgs/accel_raw.png)
+![accel_raw](imgs/accel_raw.png)
  
 As you can see measures are really noisy, almost unusable data for a controller from the gyro.
  
@@ -406,14 +406,14 @@ printf(">roll_rate:%f\n", X[1]);
 
 With the Kalman filter we now obtain a smoother roll and roll_rate which could now be used in a PID controller for exemple, or any type of controller, which are often very sensitive to noise and act terribly with vibration.
 
-![kf_roll](https://github.com/sacha-epita/mpu6050_kalman/tree/main/imgs/kf_roll.png)
+![kf_roll](imgs/kf_roll.png)
 
-![kf_roll_rate](https://github.com/sacha-epita/mpu6050_kalman/tree/main/imgs/kf_roll_rate.png)
+![kf_roll_rate](imgs/kf_roll_rate.png)
 
 And this give us, for the roll measurement:
  - In red the Kalman Filter roll output
  - In Blue the gyroscope value (GyroY)
-![roll_kf_vs_gyro](https://github.com/sacha-epita/mpu6050_kalman/tree/main/imgs/roll_kf_vs_gyro.png)
+![roll_kf_vs_gyro](imgs/roll_kf_vs_gyro.png)
 
 But You can see a problems of filters in general: lag, which can be reduced by tuning correctly matrices `Q` and `R`, having a better model matrice `F`, and with others component of a Kalman Filter (that I have removed for the purposes of this exercise).
 
