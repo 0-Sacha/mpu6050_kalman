@@ -1,3 +1,0 @@
-[submodule "Eigen"]
-	path = Eigen
-	url = git@github.com:libigl/eigen.git
