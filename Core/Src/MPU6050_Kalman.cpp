@@ -31,7 +31,7 @@ Eigen::Vector2f X; // [ roll; roll_rate ]
 Eigen::Matrix2f P = Eigen::Matrix2f::Identity();
 
 // The Model Matrix, how roll and roll_rate are related. Here roll = roll + DELTA * roll_rate, Whereas roll_rate doesn't change
-// Change this Matrix regarding the data you want to use, and regarding your device.
+// Change this Matrix regarding the data you want to use, and according your device.
 const Eigen::Matrix2f F = (Eigen::Matrix2f() << 1.0f, DELTA,
                                                 0.0f, 1.0f).finished();
 

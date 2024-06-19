@@ -80,11 +80,11 @@ void MPU6050_Kalman();
 // The Callback from the timer (TIM2) at 100 Hz
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
-  // Since this callback is called from any timer, we need to check if the interruption come from our timer
-  if (htim == &htim2)
-  {
-    MPU6050_Kalman();
-  }
+    // Since this callback is called from any timer, we need to check if the interruption come from our timer
+    if (htim == &htim2)
+    {
+        MPU6050_Kalman();
+    }
 }
 /* USER CODE END 0 */
 
